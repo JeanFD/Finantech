@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+    {% block content %}
+        {% include 'navbar.html' %}
+
+        <div class="container mt-3">
+            <div class="jumbotron text-center">
+                <h1 class="display-4">Bem-vindo, {{ user.username }}!</h1>
+                <h2 class="display">Resumo Financeiro</h2>
+                <p class="lead">Saldo Total: R$ {{ saldo }}</p>
+                <p class="lead">Total de Receitas: R$ {{ total_receitas }}</p>
+                <p class="lead">Total de Despesas: R$ {{ total_despesas }}</p>
+                
+                <h2 class="display">Minhas Contas</h2>
+                <ul>
+                    {% for conta in contas %}
+                        <li>{{ conta.nome }} - Saldo: R$ {{ conta.saldo }}</li>
+                    {% empty %}
+                        <li>Você ainda não tem contas cadastradas.</li>
+                    {% endfor %}
+                </ul>
+                
+                <a href="{ url 'adicionar_conta' %}" class="btn">Adicionar Conta</a>
+                <a href="{% url 'adicionar_receita' %}" class="btn">Adicionar Receita</a>
+                <a href="{% url 'adicionar_despesa' %}" class="btn">Adicionar Despesa</a>
+            </div>
+        </div>
+        
+        {% endblock %}

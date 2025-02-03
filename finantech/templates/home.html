@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Finanças</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .saldo {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .btn {
+            display: block;
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo, {{ user.username }}!</h1>
+        <h2>Resumo Financeiro</h2>
+        <p class="saldo">Saldo Atual: R$ {{ saldo }}</p>
+        <p>Total de Receitas: R$ {{ total_receitas }}</p>
+        <p>Total de Despesas: R$ {{ total_despesas }}</p>
+        
+        <h2>Minhas Contas</h2>
+        <ul>
+            {% for conta in contas %}
+                <li>{{ conta.nome }} - Saldo: R$ {{ conta.saldo }}</li>
+            {% empty %}
+                <li>Você ainda não tem contas cadastradas.</li>
+            {% endfor %}
+        </ul>
+        
+        <a href="{% url 'adicionar_receita' %}" class="btn">Adicionar Receita</a>
+        <a href="{% url 'adicionar_despesa' %}" class="btn">Adicionar Despesa</a>
+        <a href="{% url 'logout' %}" class="btn" style="background-color: #dc3545;">Sair</a>
+    </div>
+</body>
+</html>

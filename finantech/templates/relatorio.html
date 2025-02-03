@@ -1,0 +1,12 @@
+<h1>Relatório {{ relatorio.data_inicio }} a {{ relatorio.data_fim }}</h1>
+
+<p>Total Receitas: {{ relatorio.total_receitas }}</p>
+<p>Total Despesas: {{ relatorio.total_despesas }}</p>
+<p>Saldo do Período: {{ relatorio.saldo_periodo }}</p>
+
+<h3>Despesas por Tipo</h3>
+<ul>
+{% for tipo in despesas_por_tipo %}
+    <li>{{ tipo.tipo__nome }}: {{ tipo.total }}</li>
+{% endfor %}
+</ul>

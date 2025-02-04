@@ -63,7 +63,7 @@ class AdicionarReceitasView(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-         return reverse('home')
+         return reverse('receitas')
     
 class AdicionarTiposReceitasView(CreateView):
     model = TipoReceita
@@ -79,7 +79,7 @@ class AdicionarTiposReceitasView(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-         return reverse('home')
+         return reverse('tipos_receitas')
     
 class DespesasView(LoginRequiredMixin, View):
     def get(self, request):
@@ -107,7 +107,7 @@ class AdicionarDespesasView(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-         return reverse('home')
+         return reverse('despesas')
     
 class TiposDespesasView(LoginRequiredMixin, View):
     def get(self, request):
@@ -130,7 +130,7 @@ class AdicionarTiposDespesasView(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-         return reverse('home')
+         return reverse('tipos_despesas')
 
 class AdicionarContasView(CreateView):
     model = Conta
@@ -151,7 +151,7 @@ class AdicionarContasView(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-         return reverse('home')
+         return reverse('contas')
 
 class BancosView(LoginRequiredMixin, View):
     def get(self, request):
@@ -174,12 +174,12 @@ class AdicionarBancosView(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-         return reverse('home')
+         return reverse('bancos')
     
 class RelatoriosView(View):
     def get(self, request):
         context = {
-            'relatorios': Relatorio.objects.all().order_by('-data_inicio')
+            'relatorios': Relatorio.objects.all().order_by('-criado_em')
         }
         return render(request, 'relatorios.html', context)
 
@@ -198,4 +198,4 @@ class AdicionarRelatoriosView(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-         return reverse('home')
+         return reverse('relatorios')

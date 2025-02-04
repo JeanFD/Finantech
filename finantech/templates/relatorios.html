@@ -20,8 +20,8 @@
                                 <td>{{ relatorio.nome }}</td> 
                                 <td>{{ relatorio.data_inicio|date:"d/m/Y" }} - {{relatorio.data_fim|date:"d/m/Y"}}</td>
                                 <td>{{ relatorio.criado_em|date:"d/m/Y"}}</td>
-                                <td>R$ {{ relatorio.receita_total }}</td> 
-                                <td>R$ {{ relatorio.despesa_total }}</td>
+                                <td>R$ {{ relatorio.despesa_total }}</td> 
+                                <td>R$ {{ relatorio.receita_total }}</td>
                                 <td>R$ {{ relatorio.saldo }}</td>
                             </tr>
                         {% empty %}

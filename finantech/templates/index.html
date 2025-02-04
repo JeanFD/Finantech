@@ -14,7 +14,7 @@
                 <a href="{% url 'adicionar_despesa' %}" class="btn">Adicionar Despesa</a>
 
                 <h2 class="display mt-3">Minhas Contas</h2>
-                <ul>
+                <ul style="list-style: none;">
                     {% for conta in contas %}
                         {% if conta.banco.nome == "Nenhum" %}
                             <li>{{ conta.nome }} - Saldo: R$ {{ conta.saldo }}</li>

@@ -119,7 +119,6 @@ class Relatorio(models.Model):
         self.despesa_total = despesas
         self.receita_total = receitas
         self.saldo = receitas - despesas
-        print(f'\n\n\n\n\n {despesas}')
 
     def save(self, *args, **kwargs):
         super(Relatorio, self).save(*args, **kwargs)

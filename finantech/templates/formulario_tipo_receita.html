@@ -1,5 +1,14 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Adicionar Tipo de Receita</button>
-</form>
+{% extends 'base.html' %}
+    {% block content %}
+        {% include 'navbar.html' %}
+        <div class="container d-flex justify-content-center align-items-center min-vh-100">
+            <div class="jumbotron p-5 bg-white shadow-lg rounded" style="width: 100%; max-width: 600px;">
+                <h3 class="text-center mb-4">Adicionar Tipo de Receita</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Adicionar Tipo de Receita</button>
+            </form>
+        </div>
+    </div>
+    {% endblock %}

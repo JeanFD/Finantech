@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
-# Models
 class Banco(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome")
 
@@ -16,7 +14,7 @@ class Banco(models.Model):
 
 class Conta(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome")
-    saldo = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Saldo")
+    saldo = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Saldo", default=0)
     banco = models.ForeignKey(Banco, on_delete=models.CASCADE, verbose_name="Banco")
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Usuário")
 

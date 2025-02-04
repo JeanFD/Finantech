@@ -1,31 +1,51 @@
-# signals.py
+# financas/signals.py
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from .models import *
+from django.db.models import F
+from .models import Receita, Despesa
 
 @receiver(post_save, sender=Receita)
-def atualizar_saldo_receita(sender, instance, created, **kwargs):
+def atualizar_saldo_despesa(sender, instance, created, **kwargs):
+
     if created:
-        Conta.objects.filter(pk=instance.conta.pk).update(saldo=F('saldo') + instance.valor)
+        instance.conta.saldo = F('saldo') + instance.valor
+        instance.conta.save(update_fields=['saldo'])
     else:
-        valor_antigo = sender.objects.get(pk=instance.pk).valor
-        diferenca = instance.valor - valor_antigo
-        Conta.objects.filter(pk=instance.conta.pk).update(saldo=F('saldo') + diferenca)
+        try:
+            old_despesa = Despesa.objects.get(pk=instance.pk)
+        except Despesa.DoesNotExist:
+            return
+
+        diferenca = old_despesa.valor - instance.valor
+        instance.conta.saldo = F('saldo') + diferenca
+        instance.conta.save(update_fields=['saldo'])
 
 @receiver(post_delete, sender=Receita)
-def reverter_saldo_receita(sender, instance, **kwargs):
-    Conta.objects.filter(pk=instance.conta.pk).update(saldo=F('saldo') - instance.valor)
+def reverter_saldo_despesa(sender, instance, **kwargs):
+    instance.conta.saldo = F('saldo') - instance.valor
+    instance.conta.save(update_fields=['saldo'])
 
-# Repita o mesmo para Despesa e Investimento (subtraindo o valor)
+
 @receiver(post_save, sender=Despesa)
 def atualizar_saldo_despesa(sender, instance, created, **kwargs):
     if created:
-        Conta.objects.filter(pk=instance.conta.pk).update(saldo=F('saldo') - instance.valor)
+        # Nova despesa: subtrai o valor do saldo
+        instance.conta.saldo = F('saldo') - instance.valor
+        instance.conta.save(update_fields=['saldo'])
     else:
-        valor_antigo = sender.objects.get(pk=instance.pk).valor
-        diferenca = valor_antigo - instance.valor  # Inverte a lógica
-        Conta.objects.filter(pk=instance.conta.pk).update(saldo=F('saldo') + diferenca)
+        # Edição de despesa: calcula a diferença
+        try:
+            old_despesa = Despesa.objects.get(pk=instance.pk)
+        except Despesa.DoesNotExist:
+            return
+
+        diferenca = old_despesa.valor - instance.valor
+        instance.conta.saldo = F('saldo') + diferenca
+        instance.conta.save(update_fields=['saldo'])
 
 @receiver(post_delete, sender=Despesa)
 def reverter_saldo_despesa(sender, instance, **kwargs):
-    Conta.objects.filter(pk=instance.conta.pk).update(saldo=F('saldo') + instance.valor)
+    instance.conta.saldo = F('saldo') + instance.valor
+    instance.conta.save(update_fields=['saldo'])
+
+

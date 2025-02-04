@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+    {% block content %}
+        {% include 'navbar.html' %}
+
+        <div class="container mt-3">
+            <div class="jumbotron text-center">
+                <h1 class="display">Bancos</h1>
+                <table class="table">
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                    <tbody>
+                        {% for banco in bancos %}
+                            <tr>
+                                <td>{{ banco.nome }}</td> 
+                            </tr>
+                        {% empty %}
+                            <li>Você ainda não tem bancos cadastrados.</li>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+                <a href="{% url 'adicionar_banco' %}" class="btn">Adicionar Banco</a>
+            </div>
+        </div>
+        
+        {% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+    {% block content %}
+        {% include 'navbar.html' %}
+
+        <div class="container mt-3">
+            <div class="jumbotron text-center">
+                <h1 class="display">Tipos de Receitas</h1>
+                <table class="table">
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                    <tbody>
+                        {% for tipo_receita in tipos_receitas %}
+                            <tr>
+                                <td>{{ tipo_receita.nome }}</td> 
+                            </tr>
+                        {% empty %}
+                            <li>Você ainda não tem tipos de receitas cadastradas.</li>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+                <a href="{% url 'adicionar_tipos_receitas' %}" class="btn">Adicionar Tipo de Receita</a>
+            </div>
+        </div>
+        
+        {% endblock %}

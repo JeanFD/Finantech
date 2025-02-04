@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+    {% block content %}
+        {% include 'navbar.html' %}
+
+        <div class="container mt-3">
+            <div class="jumbotron text-center">
+                <h1 class="display">Contas</h1>
+                <table class="table">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Banco</th>
+                        <th>Saldo</th>
+                    </tr>
+                    <tbody>
+                        {% for conta in contas %}
+                            <tr>
+                                <td>{{ conta.nome }}</td> 
+                                <td>{{ conta.banco }}</td>
+                                <td>{{ conta.saldo }}</td> 
+                            </tr>
+                        {% empty %}
+                            <li>Você ainda não tem receitas cadastradas.</li>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+                <a href="{% url 'adicionar_conta' %}" class="btn">Adicionar Conta</a>
+            </div>
+        </div>
+        
+        {% endblock %}

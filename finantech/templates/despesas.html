@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+    {% block content %}
+        {% include 'navbar.html' %}
+
+        <div class="container mt-3">
+            <div class="jumbotron text-center">
+                <h1 class="display">Despesas</h1>
+                <table class="table">
+                    <tr>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                    </tr>
+                    <tbody>
+                        {% for despesa in despesas %}
+                            <tr>
+                                <td>{{ despesa.data|date:"d/m/Y" }}</td> 
+                                <td>{{ despesa.tipo }}</td>
+                                <td>{{ despesa.descricao }}</td> 
+                                <td>R$ {{ despesa.valor }}</td>
+                            </tr>
+                        {% empty %}
+                            <li>Você ainda não tem despesas cadastradas.</li>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+                <a href="{% url 'adicionar_despesa' %}" class="btn">Adicionar Despesa</a>
+            </div>
+        </div>
+        
+        {% endblock %}

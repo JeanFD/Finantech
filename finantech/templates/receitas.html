@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+    {% block content %}
+        {% include 'navbar.html' %}
+
+        <div class="container mt-3">
+            <div class="jumbotron text-center">
+                <h1 class="display">Receitas</h1>
+                <table class="table">
+                    <tr>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                    </tr>
+                    <tbody>
+                        {% for receita in receitas %}
+                            <tr>
+                                <td>{{ receita.data|date:"d/m/Y" }}</td> 
+                                <td>{{ receita.tipo }}</td>
+                                <td>{{ receita.descricao }}</td> 
+                                <td>R$ {{ receita.valor }}</td>
+                            </tr>
+                        {% empty %}
+                            <li>Você ainda não tem receitas cadastradas.</li>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+                <a href="{% url 'adicionar_receita' %}" class="btn">Adicionar Receita</a>
+            </div>
+        </div>
+        
+        {% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+    {% block content %}
+        {% include 'navbar.html' %}
+
+        <div class="container mt-3">
+            <div class="jumbotron text-center">
+                <h1 class="display">Tipos de Despesa</h1>
+                <table class="table">
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                    <tbody>
+                        {% for tipo_despesa in tipos_despesas %}
+                            <tr>
+                                <td>{{ tipo_despesa.nome }}</td> 
+                            </tr>
+                        {% empty %}
+                            <li>Você ainda não tem tipos de despesas cadastradas.</li>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+                <a href="{% url 'adicionar_tipo_despesa' %}" class="btn">Adicionar Tipo de Despesa</a>
+            </div>
+        </div>
+        
+        {% endblock %}

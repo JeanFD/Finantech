@@ -48,3 +48,8 @@ class BancoForm(forms.ModelForm):
     class Meta:
         model = Banco
         fields = ['nome']
+
+class RelatorioForm(forms.ModelForm):
+    class Meta:
+        model = Relatorio
+        fields = ['nome', 'data_inicio', 'data_fim']

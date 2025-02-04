@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+    {% block content %}
+        {% include 'navbar.html' %}
+
+        <div class="container mt-3">
+            <div class="jumbotron text-center">
+                <h1 class="display">Relatorios</h1>
+                <table class="table">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Período</th>
+                        <th>Data Criação</th>
+                        <th>Despesa Total</th>
+                        <th>Receita Total</th>
+                        <th>Saldo</th>
+                    </tr>
+                    <tbody>
+                        {% for relatorio in relatorios %}
+                            <tr>
+                                <td>{{ relatorio.nome }}</td> 
+                                <td>{{ relatorio.data_inicio|date:"d/m/Y" }} - {{relatorio.data_fim|date:"d/m/Y"}}</td>
+                                <td>{{ relatorio.criado_em|date:"d/m/Y"}}</td>
+                                <td>R$ {{ relatorio.receita_total }}</td> 
+                                <td>R$ {{ relatorio.despesa_total }}</td>
+                                <td>R$ {{ relatorio.saldo }}</td>
+                            </tr>
+                        {% empty %}
+                            <li>Você ainda não tem receitas cadastradas.</li>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+                <a href="{% url 'adicionar_relatorio' %}" class="btn">Adicionar Relatorio</a>
+            </div>
+        </div>
+        
+        {% endblock %}

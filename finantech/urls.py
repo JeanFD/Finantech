@@ -17,4 +17,6 @@ urlpatterns = [
     path('adicionar_tipo_despesa/', AdicionarTiposDespesasView.as_view(), name='adicionar_tipo_despesa'),
     path('bancos/', BancosView.as_view(), name='bancos'),
     path('adicionar_bancos/', AdicionarBancosView.as_view(), name='adicionar_banco'),
+    path('relatorios/', RelatoriosView.as_view(), name='relatorios'),
+    path('adicionar_relatorio/', AdicionarRelatoriosView.as_view(), name='adicionar_relatorio'),
 ]

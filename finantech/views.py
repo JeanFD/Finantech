@@ -9,13 +9,19 @@ from django.views.generic import FormView, CreateView
 
 class IndexView(View):
     def get(self, request):
-        context ={
-            'contas': Conta.objects.filter(usuario=request.user),
-            'total_receitas': Receita.objects.filter(conta__usuario=request.user).aggregate(models.Sum('valor'))['valor__sum'] or 0,
-            'total_despesas': Despesa.objects.filter(conta__usuario=request.user).aggregate(models.Sum('valor'))['valor__sum'] or 0,
-            'saldo': Conta.objects.filter(usuario=request.user).aggregate(models.Sum('saldo'))['saldo__sum'] or 0
-        }
-        return render(request, 'index.html', context)
+        if request.user.is_authenticated:
+            usuario = Conta.objects.filter(usuario=request.user)
+        
+            context ={    
+                'contas': usuario,
+                'total_receitas': Receita.objects.filter(conta__usuario=request.user).aggregate(models.Sum('valor'))['valor__sum'] or 0,
+                'total_despesas': Despesa.objects.filter(conta__usuario=request.user).aggregate(models.Sum('valor'))['valor__sum'] or 0,
+                'saldo': Conta.objects.filter(usuario=request.user).aggregate(models.Sum('saldo'))['saldo__sum'] or 0
+            }
+            return render(request, 'index.html', context)
+        else:
+            return render(request, 'index.html')
+        
 
 class ContasView(LoginRequiredMixin, View):
     def get(self, request):
@@ -27,7 +33,7 @@ class ContasView(LoginRequiredMixin, View):
 class ReceitasView(LoginRequiredMixin, View):
     def get(self, request):
         context = {
-            'receitas': Receita.objects.filter(conta__usuario=request.user)
+            'receitas': Receita.objects.filter(conta__usuario=request.user).order_by('-data')
         }
         return render(request, 'receitas.html', context)
     
@@ -78,7 +84,7 @@ class AdicionarTiposReceitasView(CreateView):
 class DespesasView(LoginRequiredMixin, View):
     def get(self, request):
         context = {
-            'despesas': Despesa.objects.filter(conta__usuario=request.user)
+            'despesas': Despesa.objects.filter(conta__usuario=request.user).order_by('-data')
         }
         return render(request, 'despesas.html', context)
     
@@ -158,6 +164,30 @@ class AdicionarBancosView(CreateView):
     model = Banco
     form_class = BancoForm
     template_name = 'formulario_banco.html'
+    success_url = '/'
+    
+    def form_valid(self, form):
+        banco = form.save(commit=False)
+        banco.usuario = self.request.user
+        banco.save()
+
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+         return reverse('home')
+    
+class RelatoriosView(View):
+    def get(self, request):
+        context = {
+            'relatorios': Relatorio.objects.all().order_by('-data_inicio')
+        }
+        return render(request, 'relatorios.html', context)
+
+
+class AdicionarRelatoriosView(CreateView):
+    model = Relatorio
+    form_class = RelatorioForm
+    template_name = 'formulario_relatorio.html'
     success_url = '/'
     
     def form_valid(self, form):

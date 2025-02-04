@@ -2,7 +2,7 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.db.models import F
-from .models import Receita, Despesa
+from .models import Receita, Despesa, Relatorio
 
 @receiver(post_save, sender=Receita)
 def atualizar_saldo_despesa(sender, instance, created, **kwargs):
@@ -29,11 +29,9 @@ def reverter_saldo_despesa(sender, instance, **kwargs):
 @receiver(post_save, sender=Despesa)
 def atualizar_saldo_despesa(sender, instance, created, **kwargs):
     if created:
-        # Nova despesa: subtrai o valor do saldo
         instance.conta.saldo = F('saldo') - instance.valor
         instance.conta.save(update_fields=['saldo'])
     else:
-        # Edição de despesa: calcula a diferença
         try:
             old_despesa = Despesa.objects.get(pk=instance.pk)
         except Despesa.DoesNotExist:
@@ -47,5 +45,4 @@ def atualizar_saldo_despesa(sender, instance, created, **kwargs):
 def reverter_saldo_despesa(sender, instance, **kwargs):
     instance.conta.saldo = F('saldo') + instance.valor
     instance.conta.save(update_fields=['saldo'])
-
 
